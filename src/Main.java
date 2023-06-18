@@ -1,17 +1,60 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner scanner = new Scanner(System.in);
+        String playAgain;
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        do {
+            System.out.println("Game: Rock, Paper, Scissors!");
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+            String playerAMove = getPlayerMove(scanner, "A");
+            String playerBMove = getPlayerMove(scanner, "B");
+
+            String result = getResult(playerAMove, playerBMove);
+
+            System.out.println(result);
+            System.out.println("Do you want to play again? [Y/N]");
+            playAgain = scanner.nextLine();
+
+        } while (playAgain.equalsIgnoreCase("Y"));
+
+        scanner.close();
+        System.out.println("Thanks for playing!");
+    }
+
+    private static String getPlayerMove(Scanner scanner, String player) {
+        String move;
+        do {
+            System.out.println("Player " + player + ", Choose your move: [R, P, S]");
+            move = scanner.nextLine().toUpperCase();
+        } while (!move.equals("R") && !move.equals("P") && !move.equals("S"));
+
+        return move;
+    }
+
+    private static String getResult(String playerAMove, String playerBMove) {
+        if (playerAMove.equals(playerBMove)) {
+            return "Rock vs Rock it’s a Tie!";
+        } else if ((playerAMove.equals("R") && playerBMove.equals("S"))
+                || (playerAMove.equals("P") && playerBMove.equals("R"))
+                || (playerAMove.equals("S") && playerBMove.equals("P"))) {
+            return "Player A wins: " + getWinningPhrase(playerAMove, playerBMove);
+        } else {
+            return "Player B wins: " + getWinningPhrase(playerBMove, playerAMove);
+        }
+    }
+
+    private static String getWinningPhrase(String winningMove, String losingMove) {
+        switch (winningMove) {
+            case "R":
+                return "Rock breaks Scissors";
+            case "P":
+                return "Paper covers Rock";
+            case "S":
+                return "Scissors cuts Paper";
+            default:
+                return "";
         }
     }
 }
